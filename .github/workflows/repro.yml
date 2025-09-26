@@ -7,16 +7,16 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        i: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        i: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
       fail-fast: true
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.8
+      - name: Extract Python
+        run: |
+          sudo tar -xf mypython.tar.zst -C /
+          echo /opt/mypython/bin >> "$GITHUB_PATH"
       - name: Dump sysconfig
         run: python3 -m sysconfig
       - name: Install dependencies
@@ -33,6 +33,6 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger -w /dev/kvm
       - name: Build
-        run: python setup.py build_ext -i
+        run: python3 setup.py build_ext -i
       - name: Test
         run: python3 -m vmtest.vm -k 6.16.8-vmtest36.1default bash -c "for ((i = 0; i < 200; i++)); do echo \$i; $(which python3) -B ./repro.py || exit 1; done"

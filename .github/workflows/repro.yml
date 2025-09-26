@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.8
+      - name: Dump sysconfig
+        run: python3 -m sysconfig
       - name: Install dependencies
         run: |
           sudo apt-get update -y
@@ -33,4 +35,4 @@ jobs:
       - name: Build
         run: python setup.py build_ext -i
       - name: Test
-        run: python3 -m vmtest.vm -k 6.16.8-vmtest36.1default bash -c "for ((i = 0; i < 200; i++)); do echo \$i; $(which python3) -B ./my_test.py || exit 1; done"
+        run: python3 -m vmtest.vm -k 6.16.8-vmtest36.1default bash -c "for ((i = 0; i < 200; i++)); do echo \$i; $(which python3) -B ./repro.py || exit 1; done"

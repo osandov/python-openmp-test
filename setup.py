@@ -14,7 +14,7 @@ setup(
             name="myomp",
             sources=["myomp.c"],
             extra_compile_args=["-fopenmp"],
-            extra_link_args=["-fopenmp"],
+            extra_link_args=["-fopenmp", "-lgcc_s"],
         )
     ],
 )

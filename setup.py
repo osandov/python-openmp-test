@@ -1,8 +1,7 @@
 import os
 import sysconfig
 
-from setuptools import setup
-from setuptools.extension import Extension
+from distutils.core import setup, Extension
 
 os.environ["CC"] = "clang"
 os.environ["LDSHARED"] = sysconfig.get_config_var("LDSHARED").replace("gcc", "clang")
